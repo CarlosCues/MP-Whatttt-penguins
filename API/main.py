@@ -76,7 +76,7 @@ async def media_peso_especies():
 
 
 @app.get("/altura/sexo/{especie}/")
-async def altura_sexo_especies(especie):
+async def altura_sexo_especies(especie: str):
     collection='penguins'
     filter={'species':especie}
     project={'species':1,'_id':0,'sex':1,'culmen_length_mm':1}
@@ -91,13 +91,13 @@ async def altura_sexo_especies(especie):
         else:
             specie_sex[pinguino['species']+ '_' + pinguino['sex']]=pinguino['culmen_length_mm']
             num_especies[pinguino['species']+ '_' + pinguino['sex']]=1
-  
+    
     for especie_sexo,altura in specie_sex.items():
         specie_sex[especie_sexo]=altura/num_especies[especie_sexo]
       
     return (specie_sex)
 
-@app.get('porcentaje/specie/penguins')
+@app.get('/porcentaje/specie/penguins')
 async def specie_penguins():
     collection='penguins'
     filter={}
