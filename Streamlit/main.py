@@ -1,5 +1,8 @@
 #visualizar los datos
 from optparse import TitledHelpFormatter
+from unicodedata import name
+
+from nbformat import write
 import streamlit as st
 from Data.get_data import *
 from streamlit_folium import folium_static
@@ -26,10 +29,11 @@ if choice =='Home':
     st.subheader(
     """
     What information you will find in this app:
-    - **Home** section where you will find basic information about data and the penguins.
+    - **Home** section where you will find basic information about the data.
     - **Meet the penguins**  A brief description of each penguins species.
     - **Insights** Results of the data collected.
     - **Quiz** to test your knowledge.
+    - **Contact** to leave your feedback
     """
     )
     st.header('Palmers Penguins')
@@ -52,6 +56,10 @@ if choice =='Home':
     - **Body_mass_g**: body mass (g)
     - **Island**: island name
     - **Sex**: penguin sex
+
+
+
+    What are culmen length & depth?\n The culmen is “the upper ridge of a bird’s beak” (definition from Oxford Languages).
     '''
         )
         
@@ -126,12 +134,19 @@ if choice== 'Meet the penguins':
     After spending the winter north of the sea ice, chinstraps return in late October or early November to their nest sites, usually with the same breeding partners. These colonies are on the rocky, ice-free coasts of the South Sandwich Islands, South Shetland Islands, and Antarctic continent.
     '''}
 
+    videos={'Adelie':'https://youtu.be/YKqXGNNPNaQ','Gentoo':'https://youtu.be/X8B7jdB-YR8','Chinstrap':'https://youtu.be/xlUm-0TSjNA'}
+
+
     option = st.selectbox(
         'Choose a specie to know more about',
         lista_especies,index=1,key='Choose a penguin')
     for penguin, description in descriptions.items():
         if option==penguin:
             st.write(description)
+    for penguin, video in videos.items():
+        if option==penguin:
+            st.video(video,format='video/mp4')       
+            
 
 
 
@@ -170,9 +185,7 @@ if choice=='Insights':
 
     #mostrar poblacion de pinguinos en cada isla. 
     st.markdown("***")
-    st.markdown('''**The distribution of the species based on island in the dataset**
-            \n As we can see
-            Biscoe and Dream have a majority of the penguins with some of them in the Torgersen island also.''')
+    st.markdown('''**The distribution of the species based on island in the dataset**''')     
     st.markdown("***")
     fig, ax = plt.subplots()
     ax.bar(poblacion_islas().keys(), poblacion_islas().values())
@@ -180,6 +193,11 @@ if choice=='Insights':
     plt.title('Penguins speciments in each island')
     st.pyplot(fig)
     fig.savefig('polacion_islas.png')
+
+    with st.expander("See explanation"):
+        st.write("""
+            As we can see Biscoe and Dream have a majority of the penguins with some of them in the Torgersen island also.
+        """)
 
     with open("polacion_islas.png", "rb") as file:
         btn = st.download_button(
@@ -192,8 +210,7 @@ if choice=='Insights':
 
 #Porcentaje de especie sobre total pinguinos
     st.markdown("***")
-    st.markdown('''**The distribution of the species in the dataset**\n
-As we can see Adelie occupies around 44% of the total, while Gentoo has around 36%, the rest around 20% is occupied by Chinstrap''')
+    st.markdown('''**The distribution of the species in the dataset**''')
     st.markdown("***")
 
     fig, ax = plt.subplots()
@@ -203,7 +220,12 @@ As we can see Adelie occupies around 44% of the total, while Gentoo has around 3
     st.pyplot(fig)
     fig.savefig('distrib_pingüinos.png')
 
-    with open("distrib_sexo.png", "rb") as file:
+    with st.expander("See explanation"):
+        st.write("""
+        As we can see Adelie occupies around 44% of the total, while Gentoo has around 36%, the rest around 20% is occupied by Chinstrap.
+    """)
+
+    with open("distrib_pingüinos.png", "rb") as file:
         btn = st.download_button(
                 label="Download image",
                 data=file,
@@ -214,14 +236,19 @@ As we can see Adelie occupies around 44% of the total, while Gentoo has around 3
 
     #mostrar distribucion por sexo
     st.markdown("***")
-    st.markdown(''' As we can see we have equal distribution of males and females for Adelie and Chinstraps, while for Gentoo we have a few more males.''')
+    st.markdown("**Distribution of penguins species per sex**")
     st.markdown("***")
     fig, ax = plt.subplots()
     ax.pie(esp_sex_penguins().values(), labels=esp_sex_penguins().keys(),autopct='%.1f%%')
-    plt.title('Distribution of penguins species per sex')
+ 
     ax.axis("equal")
     st.pyplot(fig)
     fig.savefig('distrib_sexo.png')
+
+    with st.expander("See explanation"):
+        st.write("""
+         As we can see we have equal distribution of males and females for Adelie and Chinstraps, while for Gentoo we have a few more males.''')
+        """)
 
     with open("distrib_sexo.png", "rb") as file:
         btn = st.download_button(
@@ -234,14 +261,10 @@ As we can see Adelie occupies around 44% of the total, while Gentoo has around 3
     #mostrar altura por sexo y por especie
     
     option = st.selectbox(
-        'What specie would you like to know more about?',
+        'Pick a specie.',
         (specie_penguins().keys())
                         )
-    st.markdown("***")
-    st.markdown('''As we can see from the results on average length of the bill,males´ bill are longer than females in each species.. ''')
-    st.markdown("***")
-
-
+    
     
     fig, ax = plt.subplots()
     ax.bar(media_altura(option).keys(),media_altura(option).values())
@@ -249,6 +272,11 @@ As we can see Adelie occupies around 44% of the total, while Gentoo has around 3
     plt.title('Average length of the bill')
     st.pyplot(fig)
     fig.savefig(f'altura_sexo_{option}.png')
+
+
+    st.markdown("***")
+    st.markdown('''As we can see from the results on average length of the bill,males´ bill are longer than females in each species.''')
+    st.markdown("***")
 
     with open("distrib_sexo.png", "rb") as file:
         btn = st.download_button(
@@ -260,15 +288,19 @@ As we can see Adelie occupies around 44% of the total, while Gentoo has around 3
    
 #media peso especie
 
-    st.markdown("***")
-    st.markdown('''As we can see from the results on average Gentoo specimens are the heaviest among the three species. ''')
-    st.markdown("***")
+
 
     fig, ax = plt.subplots()
     ax.bar(media_peso().keys(), media_peso().values())
     plt.ylabel('Weight(g)')
     st.pyplot(fig)
     fig.savefig('media_peso.png')
+    
+    with st.expander("See explanation"):
+            st.write("""
+            As we can see from the results on average Gentoo specimens are the heaviest among the three species.
+            """)
+
 
     with open("polacion_islas.png", "rb") as file:
         btn = st.download_button(
@@ -282,8 +314,7 @@ As we can see Adelie occupies around 44% of the total, while Gentoo has around 3
 if choice =='Quiz':
    
     st.title("Let see what have you learned")
-    st.text('Here are simple questions to answer')
-
+   
     st.subheader('Question 1')
     question_one = st.radio(
      "Where you can find the Dream island",
@@ -328,7 +359,10 @@ if choice =='Quiz':
         else:
             st.write('Wrong answer, try again')
 
-    
+ 
+
+
+
 
 if choice =='Contact':
 
@@ -336,7 +370,7 @@ if choice =='Contact':
     st.subheader(' If you have any feedback or doubt please reach us filling the form below')
 
     contact_form='''
-    <form action="https://formsubmit.co/your@email.com" method="POST">
+    <form action="https://formsubmit.co/c.cuestac@yahoo.es" method="POST">
         <input type='hidden' name='_captcha' value=false>
         <input type="text" name="name" placeholder='Your name' required>
         <input type="email" name="email"  placeholder='Your email' required>
@@ -344,6 +378,8 @@ if choice =='Contact':
         <button type="submit">Send</button>
     </form>
     '''
+
+
     st.markdown(contact_form,unsafe_allow_html=True)
 
 
@@ -352,3 +388,5 @@ if choice =='Contact':
             st.markdown(f"<style>{f.read()}</style>",unsafe_allow_html=True)
 
     local_css('style/style.css')
+
+
