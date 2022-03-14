@@ -15,7 +15,7 @@ Los datos fueron recogidos y puestos a disposición por la Dra. Kristen Gorman y
 
 ## Dependencies
 
-Proyecto desarrollado integramente en Python, con las siguientes bibliotecas requeridas:
+Proyecto desarrollado en Python, aunque contiene algo de CSS, con las siguientes bibliotecas requeridas:
 - Pandas
 - Beautifull Soup
 - Pymongo
@@ -23,20 +23,21 @@ Proyecto desarrollado integramente en Python, con las siguientes bibliotecas req
 - Dotenv
 - Folium
 - Streamlit
+
 ## Contenido del dashboard 
 
 El dashboard del proyecto se divide en 4 partes:
 - **Home** --> Introduccion sobre la estrcutura del dashboard, qué información podrá encontrar el usuario en cada parte asi como las metricas del dashboard para entender las conclusiones que se exponen.
 - **Meet the penguins**--> Contenido relacinado con las diferentes especies de pinguinos que se han estudiado. 
-- **Insights**--> Visualización de los resultados del anaisis de los datos. 
+- **Insights**--> Visualización de los resultados del anáisis de los datos. 
 - **Quiz**--> Un breve cuestionario para evaluar que has aprendido.
+- **Contact**-->Formulario para recibir mensajes de los usuarios
 ## To-Do
 
 Proximos pasos:
 
 - Enriquecer el contenido. 
 - Incluir nuevos datos a la pestala Ingishts.
-- Añadir una seccion donde el usuario pueda escribir y mandar su feedback.
 
 ## API Reference
 
@@ -58,7 +59,7 @@ Marca la situacion de las islas donde habitan las tres especies de pingüinos.
 Devuelve un diccionario con número de ejemplares por isla.
 
 ***
-#### Conocer la media de  peso de cada especie.
+#### Conocer la media de peso de cada especie.
 
 ```http
   GET /media/peso/especies/
@@ -68,7 +69,7 @@ Devuelve un diccionario con número de ejemplares por isla.
 Devuelve un diccionario con la media del peso,en gramos, de los ejemplares estudiados por especie.
 
 ***
-#### Conocer la altura media de cada especie.
+#### Conocer la media de la longitud del pico de cada especie.
 ```http
   GET /altura/sexo/{especie}/
 ```
@@ -89,7 +90,7 @@ Devuelve un diccionario con la media de la longitud del pico, en milimetros, de 
 
 
 
-Devuelve un diccionario con los porcentajes que representan los ejemplares de cada especie sobre el total de pingüinos estudiado.
+Devuelve un diccionario con los porcentajes que representan los ejemplares de cada especie sobre el total de pingüinos estudiados.
 
 ***
 
@@ -100,7 +101,7 @@ Devuelve un diccionario con los porcentajes que representan los ejemplares de ca
 ```
 
 
-Devuelve un diccionario con los porcentajes que representan los ejemplares de cada especie y sexo de  sobre el total de pingüinos estudiado.
+Devuelve un diccionario con los porcentajes que representan los ejemplares de cada especie y sexo sobre el total de pingüinos estudiados.
 
 
 
