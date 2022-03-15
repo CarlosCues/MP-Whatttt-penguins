@@ -1,8 +1,7 @@
 #visualizar los datos
-from optparse import TitledHelpFormatter
-from unicodedata import name
 
-from nbformat import write
+
+
 import streamlit as st
 from Data.get_data import *
 from streamlit_folium import folium_static
@@ -203,7 +202,7 @@ if choice=='Insights':
         btn = st.download_button(
                 label="Download image",
                 data=file,
-                file_name='polacion_islas.pn',
+                file_name='polacion_islas.png',
                 mime="image/png"
            )
 
@@ -247,7 +246,7 @@ if choice=='Insights':
 
     with st.expander("See explanation"):
         st.write("""
-         As we can see we have equal distribution of males and females for Adelie and Chinstraps, while for Gentoo we have a few more males.''')
+         As we can see we have equal distribution of males and females for Adelie and Chinstraps, while for Gentoo we have a few more males.
         """)
 
     with open("distrib_sexo.png", "rb") as file:
@@ -355,7 +354,7 @@ if choice =='Quiz':
             st.write('Well done')
         
         elif question_three=='Pick one':
-            t.write('Pick one otpion')
+            st.write('Pick one otpion')
         else:
             st.write('Wrong answer, try again')
 
