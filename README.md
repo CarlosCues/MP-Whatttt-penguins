@@ -10,7 +10,8 @@ Las distintas fases del proyecto han sido:
 - **Creacion de un Dashboard** con Streamlit
 - **Creacion de maquina virtual** con Docker.
 - **Subida de la API a la nube** con Heorku.
-  Los datos fueron recogidos y puestos a disposición por la Dra. Kristen Gorman y la Estación Palmer, Antarctica LTER, miembro de la Red de Investigación Ecológica a Largo Plazo.
+
+Los datos fueron recogidos y puestos a disposición por la Dra. Kristen Gorman y la Estación Palmer, Antarctica LTER, miembro de la Red de Investigación Ecológica a Largo Plazo.
 
 Puedes encontrar el resultado en:
 https://streamlit-mp-penguins.herokuapp.com/
